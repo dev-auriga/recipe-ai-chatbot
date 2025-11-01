@@ -1,3 +1,4 @@
+# backend/main.py
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -33,18 +34,20 @@ def root():
 @app.post("/chat")
 async def chat(request: ChatRequest):
     try:
-        response = run_agent(request.message)
+        result = run_agent(request.message)  # dict with text + recipes
         db: Session = SessionLocal()
+        # Persist the LLM text answer for history; keep structured recipes out of DB for now
         conv = Conversation(
             user_id=request.user_id,
             user_message=request.message,
-            bot_response=response
+            bot_response=result.get("text", "")
         )
         db.add(conv)
         db.commit()
         db.refresh(conv)
         db.close()
-        return {"response": response}
+        # Return structured payload for frontend
+        return {"response": result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
