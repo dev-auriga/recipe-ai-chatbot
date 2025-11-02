@@ -3,8 +3,7 @@
 
 A full-stack conversational chatbot that helps you discover, understand, and cook recipes — powered by **LangChain**, **LangGraph**, **FastAPI**, and **React (Vite + Tailwind)** with persistent chat history in a database.
 
-This project showcases how to integrate **LLMs** with **external APIs** (*Spoonacular*) for real-world data enrichment and present it through a modern, elegant chat interface.
----
+This project showcases how to integrate **LLMs** with **external APIs** (_Spoonacular_) for real-world data enrichment and present it through a modern, elegant chat interface.
 
 ## 🏗️ Tech Stack
 
@@ -125,9 +124,7 @@ You can then start the servers using:
 
 ### 🧩 Manual Setup (Alternative)
 
-If you prefer to set everything up manually or want more control, follow these steps:
-
----
+## If you prefer to set everything up manually or want more control, follow these steps:
 
 Copy the example environment file and add your API keys:
 
