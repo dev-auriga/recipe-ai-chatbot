@@ -89,16 +89,50 @@ recipeai-chatbot/
 
 ## ⚙️ Setup & Installation
 
-### 1️⃣ Environment Setup
 
-Clone and enter the project:
+### 1️⃣ Clone & Configure Environment
 
 ```bash
 git clone https://github.com/yourname/recipeai-chatbot.git
 cd recipeai-chatbot
 ```
 
-Copy the environment template and fill in your keys:
+### 🧰 One-Command Setup (Recommended)
+
+The easiest way to get started is with the included `setup.sh` script, which installs **both backend and frontend**, sets up the **virtual environment**, installs dependencies, initializes the **database**, and prepares the environment file.
+
+---
+
+````markdown
+chmod +x setup.sh
+./setup.sh
+````
+
+Once completed:
+
+* The backend environment will be ready.
+* The database will be initialized.
+* Frontend dependencies will be installed.
+* Your `.env` file will be created (if missing).
+
+You can then start the servers using:
+
+```bash
+./start_backend.sh
+./start_frontend.sh
+```
+
+---
+
+### 🧩 Manual Setup (Alternative)
+
+
+If you prefer to set everything up manually or want more control, follow these steps:
+
+---
+
+
+Copy the example environment file and add your API keys:
 
 ```bash
 cp .env.example .env
@@ -112,25 +146,34 @@ SPOONACULAR_API_KEY=your_spoonacular_key
 DATABASE_URL=sqlite:///./chat_history.db
 ```
 
+---
+
 ### 2️⃣ Backend Setup
+
+Create and activate a virtual environment, install dependencies, and initialize the database:
 
 ```bash
 cd backend
 python -m venv venv
-source venv/bin/activate  # (Windows: venv\Scripts\activate)
+source venv/bin/activate   # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
-python ../db/setup_db.py  # Initialize the database
+python ../db/setup_db.py
 ```
 
-Start the backend:
+Start the FastAPI backend server:
 
 ```bash
 uvicorn main:app --reload --port 8000
 ```
 
+By default, it runs at:
+👉 **[http://localhost:8000](http://localhost:8000)**
+
 ---
 
 ### 3️⃣ Frontend Setup
+
+In a new terminal:
 
 ```bash
 cd frontend
@@ -138,9 +181,18 @@ npm install
 npm run dev
 ```
 
-Open your browser at: **[http://localhost:5173](http://localhost:5173)**
+The React app will start at:
+👉 **[http://localhost:5173](http://localhost:5173)**
 
 ---
+
+✅ **At this point, both servers should be running:**
+
+* Backend → [http://localhost:8000](http://localhost:8000)
+* Frontend → [http://localhost:5173](http://localhost:5173)
+
+Open your browser, start chatting with the bot, and enjoy cooking! 🍳
+
 
 ## 🧠 Example Usage
 
@@ -200,6 +252,6 @@ python db/test_db.py
 
 Built with ❤️ using
 **FastAPI**, **LangChain**, **LangGraph**, **React**, and **Tailwind CSS**
-by a developer who loves both code and good food 🍽️
+by a developer who loves both code and good food 🍽️.
 
 ---
