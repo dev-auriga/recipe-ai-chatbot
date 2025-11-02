@@ -125,9 +125,7 @@ You can then start the servers using:
 
 ### 🧩 Manual Setup (Alternative)
 
-If you prefer to set everything up manually or want more control, follow these steps:
-
----
+## If you prefer to set everything up manually or want more control, follow these steps:
 
 Copy the example environment file and add your API keys:
 
