@@ -1,60 +1,85 @@
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Flame, Utensils, Soup, Leaf } from "lucide-react";
 
 export default function RecipeCard({ recipe }) {
   return (
-    <div className="bg-white shadow-md rounded-xl overflow-hidden border border-gray-200 hover:shadow-lg transition-all">
-      {recipe.image && (
-        <img
-          src={recipe.image}
-          alt={recipe.title}
-          className="w-full h-48 object-cover"
-        />
-      )}
+    <div className="relative bg-white/80 backdrop-blur-xl border border-gray-100 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden group">
+      {/* 🍳 Header Image with Overlay */}
+      <div className="relative h-64 overflow-hidden">
+        {recipe.image ? (
+          <img
+            src={recipe.image}
+            alt={recipe.title}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center text-gray-500 text-sm">
+            No Image Available
+          </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
 
-      <div className="p-4 space-y-3">
-        <h3 className="text-lg font-semibold text-gray-800 flex items-center justify-between">
-          {recipe.title}
+        <div className="absolute bottom-4 left-5">
+          <h3 className="text-2xl font-extrabold text-white drop-shadow-lg leading-tight">
+            {recipe.title}
+          </h3>
           {recipe.sourceUrl && (
             <a
               href={recipe.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-500 hover:text-blue-600"
+              className="inline-flex items-center gap-1 text-sm text-blue-200 hover:text-blue-100 mt-1 transition"
             >
-              <ExternalLink className="inline-block w-4 h-4" />
+              View Recipe <ExternalLink className="w-4 h-4" />
             </a>
           )}
-        </h3>
+        </div>
+      </div>
 
-        {recipe.summary && (
-          <p className="text-sm text-gray-600 line-clamp-3">{recipe.summary}</p>
-        )}
+      {/* 🥗 Content Section */}
+      <div className="p-6 space-y-6">
+        {/* Quick Stats */}
+        <div className="flex flex-wrap gap-3 text-sm font-medium">
+          {recipe.readyInMinutes && (
+            <div className="flex items-center gap-2 bg-gradient-to-r from-orange-100 to-orange-50 text-orange-700 px-3 py-1.5 rounded-full shadow-sm">
+              <Flame className="w-4 h-4" /> {recipe.readyInMinutes} min
+            </div>
+          )}
+          {recipe.servings && (
+            <div className="flex items-center gap-2 bg-gradient-to-r from-green-100 to-green-50 text-green-700 px-3 py-1.5 rounded-full shadow-sm">
+              <Utensils className="w-4 h-4" /> {recipe.servings} servings
+            </div>
+          )}
+        </div>
 
-        {/* Nutrition Section */}
+        {/* Nutrition Info */}
         {recipe.nutrition && (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm text-center">
+          <div className="grid grid-cols-4 gap-3 text-center text-xs font-medium">
             {recipe.nutrition.calories && (
-              <div className="bg-blue-50 rounded-md p-2">
-                <span className="font-medium text-blue-700">Calories</span>
-                <p>{recipe.nutrition.calories}</p>
+              <div className="py-3 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 text-blue-800 shadow-sm">
+                <p className="uppercase text-[10px] tracking-wide">Calories</p>
+                <p className="text-base font-bold">
+                  {recipe.nutrition.calories}
+                </p>
               </div>
             )}
             {recipe.nutrition.protein && (
-              <div className="bg-green-50 rounded-md p-2">
-                <span className="font-medium text-green-700">Protein</span>
-                <p>{recipe.nutrition.protein}</p>
+              <div className="py-3 rounded-xl bg-gradient-to-br from-green-50 to-green-100 text-green-800 shadow-sm">
+                <p className="uppercase text-[10px] tracking-wide">Protein</p>
+                <p className="text-base font-bold">
+                  {recipe.nutrition.protein}
+                </p>
               </div>
             )}
             {recipe.nutrition.carbs && (
-              <div className="bg-yellow-50 rounded-md p-2">
-                <span className="font-medium text-yellow-700">Carbs</span>
-                <p>{recipe.nutrition.carbs}</p>
+              <div className="py-3 rounded-xl bg-gradient-to-br from-yellow-50 to-yellow-100 text-yellow-800 shadow-sm">
+                <p className="uppercase text-[10px] tracking-wide">Carbs</p>
+                <p className="text-base font-bold">{recipe.nutrition.carbs}</p>
               </div>
             )}
             {recipe.nutrition.fat && (
-              <div className="bg-red-50 rounded-md p-2">
-                <span className="font-medium text-red-700">Fat</span>
-                <p>{recipe.nutrition.fat}</p>
+              <div className="py-3 rounded-xl bg-gradient-to-br from-red-50 to-red-100 text-red-800 shadow-sm">
+                <p className="uppercase text-[10px] tracking-wide">Fat</p>
+                <p className="text-base font-bold">{recipe.nutrition.fat}</p>
               </div>
             )}
           </div>
@@ -63,10 +88,18 @@ export default function RecipeCard({ recipe }) {
         {/* Ingredients */}
         {recipe.ingredients?.length > 0 && (
           <div>
-            <h4 className="font-semibold mt-2 text-gray-700">Ingredients:</h4>
-            <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
-              {recipe.ingredients.slice(0, 10).map((ing, i) => (
-                <li key={i}>{ing}</li>
+            <h4 className="flex items-center gap-2 font-semibold text-gray-800 mb-2 text-lg">
+              <Soup className="w-5 h-5 text-orange-500" /> Ingredients
+            </h4>
+            <ul className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-gray-700">
+              {recipe.ingredients.map((ing, i) => (
+                <li
+                  key={i}
+                  className="flex items-center gap-2 bg-gray-50 px-2 py-1.5 rounded-lg hover:bg-gray-100 transition"
+                >
+                  {/* <span className="text-gray-400">•</span> */}
+                  {ing}
+                </li>
               ))}
             </ul>
           </div>
@@ -75,10 +108,17 @@ export default function RecipeCard({ recipe }) {
         {/* Steps */}
         {recipe.steps?.length > 0 && (
           <div>
-            <h4 className="font-semibold mt-2 text-gray-700">Steps:</h4>
-            <ol className="list-decimal list-inside text-sm text-gray-600 space-y-1">
-              {recipe.steps.slice(0, 5).map((st, i) => (
-                <li key={i}>{st}</li>
+            <h4 className="flex items-center gap-2 font-semibold text-gray-800 mb-2 text-lg">
+              <Leaf className="w-5 h-5 text-green-600" /> Steps
+            </h4>
+            <ol className="list-decimal list-inside text-sm text-gray-700 space-y-1">
+              {recipe.steps.map((st, i) => (
+                <li
+                  key={i}
+                  className="bg-gray-50 p-2 rounded-md hover:bg-gray-100 transition"
+                >
+                  {st}
+                </li>
               ))}
             </ol>
           </div>
@@ -86,9 +126,11 @@ export default function RecipeCard({ recipe }) {
 
         {/* Similar Recipes */}
         {recipe.similar?.length > 0 && (
-          <div className="mt-3">
-            <h4 className="font-semibold text-gray-700">Similar Recipes:</h4>
-            <div className="flex flex-wrap gap-2 mt-1">
+          <div>
+            <h4 className="font-semibold text-gray-800 mb-2 text-lg">
+              Similar Recipes
+            </h4>
+            <div className="flex flex-wrap gap-2">
               {recipe.similar.map((s) => (
                 <a
                   key={s.id}
@@ -97,7 +139,7 @@ export default function RecipeCard({ recipe }) {
                     .replace(/\s+/g, "-")}-${s.id}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-1 rounded-md transition"
+                  className="text-xs bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-800 px-3 py-1.5 rounded-full transition-all shadow-sm"
                 >
                   {s.title}
                 </a>

@@ -71,7 +71,15 @@ def call_api(state: AgentState) -> AgentState:
     for r in results:
         rid = r.get("id")
         title = r.get("title")
-        image = r.get("image")
+        image = None
+        if info and info.get("image"):
+            image = info.get("image")
+        elif r.get("image"):
+            image = r.get("image")
+        elif rid:
+            image = f"https://spoonacular.com/recipeImages/{rid}-636x393.jpg"
+        else:
+            image = None
         source_url = r.get("sourceUrl") or r.get("spoonacularSourceUrl") or None
 
         # If fallback mode, fetch full info
